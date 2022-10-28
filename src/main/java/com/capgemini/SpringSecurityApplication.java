@@ -1,7 +1,7 @@
 package com.capgemini;
 
 import com.capgemini.entities.Role;
-import com.capgemini.entities.User;
+import com.capgemini.entities.UserEntity;
 import com.capgemini.repositories.RoleRepository;
 import com.capgemini.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class SpringSecurityApplication implements CommandLineRunner {
@@ -33,6 +31,7 @@ public class SpringSecurityApplication implements CommandLineRunner {
         List<Role> roleSet = new ArrayList<>();
         Role role = roleRepository.findByRoleName("ADMIN");
         roleSet.add(role);
-        userRepository.save(new User(4L, "bouka", "bouka", roleSet));
+        userRepository.save(new UserEntity(4L, "bouka", "bouka", roleSet));
     }
+
 }
