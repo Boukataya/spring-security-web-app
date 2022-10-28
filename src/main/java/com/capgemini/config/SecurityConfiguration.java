@@ -2,37 +2,29 @@ package com.capgemini.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
 
 
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder());
-        provider.setUserDetailsService(userDetailsService);
-        return provider;
-
-    }
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
@@ -64,6 +56,25 @@ public class SecurityConfiguration {
         });
         return http.build();
     }
+
+    @Bean
+    protected InMemoryUserDetailsManager configAuthentication() {
+
+        List<UserDetails> users = new ArrayList<>();
+        List<GrantedAuthority> adminAuthority = new ArrayList<>();
+        adminAuthority.add(new SimpleGrantedAuthority("ADMIN"));
+        UserDetails admin = new User("admin", "admin", adminAuthority);
+        users.add(admin);
+
+
+        List<GrantedAuthority> managerAuthority = new ArrayList<>();
+        adminAuthority.add(new SimpleGrantedAuthority("MANAGER"));
+        UserDetails manager = new User("manager", "manager", managerAuthority);
+        users.add(manager);
+
+        return new InMemoryUserDetailsManager(users);
+    }
+
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
