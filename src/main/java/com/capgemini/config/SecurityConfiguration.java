@@ -1,84 +1,60 @@
 package com.capgemini.config;
 
-import org.springframework.context.annotation.Bean;
+import com.capgemini.services.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private IUserService userService;
 
 
-    @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    @Autowired
+    AuthenticationSuccessHandler successHandler;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((auth) -> {
-            try {
-                auth
-                        .antMatchers("/").hasAnyRole("ADMIN", "MANAGER")
-                        .antMatchers("/login").permitAll()
-                        .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                        .and()
-                        .formLogin()
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/")
-                        .failureUrl("/login?error=true")
-                        .permitAll()
-                        .and()
-                        .logout()
-                        .logoutSuccessUrl("/login?logout=true")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .permitAll()
-                        .and()
-                        .csrf()
-                        .disable();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
-        return http.build();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.authorizeRequests()
+                .antMatchers("/login", "/static/js/**").permitAll()
+                .antMatchers("/index").hasAnyAuthority("ADMIN", "MANAGER")
+                .antMatchers("/dashboard").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login")
+                .failureUrl("/login?error=true")
+                .successHandler(successHandler)
+                .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/access-denied");
     }
 
-    @Bean
-    protected InMemoryUserDetailsManager configAuthentication() {
-
-        List<UserDetails> users = new ArrayList<>();
-        List<GrantedAuthority> adminAuthority = new ArrayList<>();
-        adminAuthority.add(new SimpleGrantedAuthority("ADMIN"));
-        UserDetails admin = new User("admin", "admin", adminAuthority);
-        users.add(admin);
-
-
-        List<GrantedAuthority> managerAuthority = new ArrayList<>();
-        adminAuthority.add(new SimpleGrantedAuthority("MANAGER"));
-        UserDetails manager = new User("manager", "manager", managerAuthority);
-        users.add(manager);
-
-        return new InMemoryUserDetailsManager(users);
-    }
-
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/resources/**", "/static/**");
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/static/js/**", "/images/**", "/error");
     }
 
 }
