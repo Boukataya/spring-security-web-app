@@ -31,7 +31,11 @@ public class SpringSecurityApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+<<<<<<< HEAD
        /* Role r1 = new Role("ADMIN");
+=======
+        /*Role r1 = new Role("ADMIN");
+>>>>>>> ed83fd3048af47215fe873fa932443e42db34108
         Role r2 = new Role("MANAGER");
         roleRepository.save(r1);
         roleRepository.save(r2);
@@ -44,8 +48,8 @@ public class SpringSecurityApplication implements CommandLineRunner {
         roleSet1.add(role_admin);
         roleSet1.add(role_manager);
         roleSet2.add(role_manager);
-        userRepository.save(new UserEntity("bouka", passwordEncoder().encode("bouka"), roleSet1));
-        userRepository.save(new UserEntity("driss", passwordEncoder().encode("driss"), roleSet2));*/
+        userRepository.save(new UserEntity("admin", passwordEncoder().encode("admin"), roleSet1));
+        userRepository.save(new UserEntity("manager", passwordEncoder().encode("manager"), roleSet2));*/
     }
 
     @Bean
