@@ -15,9 +15,6 @@ public class LoginController {
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public String login() {
-//		ModelAndView modelAndView = new ModelAndView();
-//		modelAndView.setViewName("login");
-//		return modelAndView;
         if (isAuthenticated()) {
             return "redirect:index?alreadyLoggedIn";
         }

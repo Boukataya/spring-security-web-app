@@ -23,7 +23,7 @@ public class MemberController {
 
     @GetMapping("/page/{pageNo}")
     public String membersPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
-        int pageSize = 10;
+        int pageSize = 15;
 
         Page<Member> page = memberService.membersPage(pageNo, pageSize);
         List<Member> membersList = page.getContent();

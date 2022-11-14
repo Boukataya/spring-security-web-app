@@ -17,7 +17,7 @@
                 <table class="table mt-2">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <!--<th scope="col">#</th>-->
                         <th scope="col">FirstName</th>
                         <th scope="col">LastName</th>
                         <th scope="col">Email</th>
@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                     <tr th:classappend="${member.active} ? active : inactive" scopr="row" th:each="member: ${members}">
-                        <td th:text="${member.id}">id</td>
+                        <!--<td th:text="${member.id}">id</td>-->
                         <td th:text="${member.firstname}">firstname</td>
                         <td th:text="${member.lastname}">lastname</td>
                         <td th:text="${member.email}">email</td>
@@ -65,11 +65,41 @@
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li class="page-item"
-                        th:each="i: ${#numbers.sequence(1, totalPages)}"
-                        th:classappend="${currentPage==i} ? active : ''">
-                        <a class="page-link" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
-                    </li>
+                    <th:block th:if="${totalPages > 10}">
+                        <th:block th:if="${currentPage <= 5 || currentPage >= totalPages - 4}">
+                            <li class="page-item"
+                                th:each="i: ${#numbers.sequence(1, 5)}"
+                                th:classappend="${currentPage==i} ? active : ''">
+                                <a class="page-link" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/page/6'}">...</a>
+                            </li>
+
+                            <li class="page-item"
+                                th:each="i: ${#numbers.sequence(totalPages - 4, totalPages)}"
+                                th:classappend="${currentPage==i} ? active : ''">
+                                <a class="page-link" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                            </li>
+                        </th:block>
+
+                        <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/page/' + ${currentPage - 5}}">...</a>
+                            </li>
+
+                            <li class="page-item"
+                                th:each="i: ${#numbers.sequence(currentPage - 4 , currentPage + 4)}"
+                                th:classappend="${currentPage==i} ? active : ''">
+                                <a class="page-link" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                            </li>
+
+
+                            <li class="page-item">
+                                <a class="page-link" th:href="@{'/page/' + ${currentPage + 5}}">...</a>
+                            </li>
+                        </th:block>
+                    </th:block>
 
 
                     <li class="page-item" th:classappend="${currentPage >= totalPages} ? disabled : ''">
@@ -86,8 +116,8 @@
     </div>
 </section>
 <!-- Modal -->
-<div class="modal fade" id="newMember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal right fade" id="newMember" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Member Information</h1>
@@ -114,16 +144,16 @@
                         <input type="text" class="form-control" name="city" placeholder="City">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label display-block">Member Status</label>
+                        <label class="form-label d-block">Member Status</label>
 
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="member_status" id="active" value="true">
-                            <label class="form-check-label" for="active">True</label>
+                            <label class="form-check-label" for="active">Active</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="member_status" id="inactive"
                                    value="false">
-                            <label class="form-check-label" for="inactive">False</label>
+                            <label class="form-check-label" for="inactive">Inactive</label>
                         </div>
                     </div>
                 </form>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api/member")
 public class MemberRestController {
+
     private MemberRepository memberRepository;
 
     public MemberRestController(MemberRepository memberRepository) {
@@ -22,7 +23,10 @@ public class MemberRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Member> findMember(@PathVariable("id") Long id) {
         Member member = memberRepository.findById(id).get();
-        System.out.println(member);
+        if (member == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(member, HttpStatus.OK);
     }
+
 }

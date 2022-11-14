@@ -31,7 +31,7 @@ public class SpringSecurityApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-      /*  Role r1 = new Role("ADMIN");
+       /* Role r1 = new Role("ADMIN");
         Role r2 = new Role("MANAGER");
         roleRepository.save(r1);
         roleRepository.save(r2);

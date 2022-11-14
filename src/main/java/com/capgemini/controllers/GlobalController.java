@@ -18,7 +18,12 @@ public class GlobalController {
 
     @ModelAttribute
     public void globalAttribute(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("userLogIn", auth.getName());
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            model.addAttribute("userLogIn", auth.getName());
+        } catch (Exception e) {
+            System.out.println("No User logged in Yet!!");
+        }
     }
+
 }
