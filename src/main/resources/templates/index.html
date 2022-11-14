@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -25,7 +26,7 @@
                         <th scope="col">Country</th>
                         <th scope="col">City</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" >Action</th>
 
                     </tr>
                     </thead>
@@ -39,16 +40,19 @@
                         <td th:text="${member.country}">country</td>
                         <td th:text="${member.city}">city</td>
                         <td th:text="${member.active}">active</td>
-                        <td style="width: 90px;">
+                        <td>
+
                             <input type="hidden" id="memberId" th:value="${member.id}">
                             <button type="button" class="btn btn-primary rounded-5 btn-sm p-1 edit"
                                     data-bs-toggle="modal"
                                     data-bs-target="#newMember">
                                 <i class="bi bi-pen"></i>
                             </button>
-                            <button type="button" class="btn btn-danger rounded-5 btn-sm  p-1 delete">
+                            <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-danger rounded-5 btn-sm  p-1 delete">
                                 <i class="bi bi-archive"></i>
                             </button>
+
+
                         </td>
                     </tr>
                     </tbody>
