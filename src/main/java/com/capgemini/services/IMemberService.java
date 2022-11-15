@@ -8,4 +8,6 @@ public interface IMemberService {
 
     void saveMember(Member member);
 
+    void deleteMember(Long id);
+
 }

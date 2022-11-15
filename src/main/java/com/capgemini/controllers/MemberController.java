@@ -7,10 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,8 @@ public class MemberController {
     public String homePage() {
         return "index";
     }
-    @GetMapping("/page/{pageNo}")
+
+    @GetMapping("/members/page/{pageNo}")
     public String membersPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
         int pageSize = 15;
 
@@ -43,11 +41,17 @@ public class MemberController {
 
     @GetMapping("/members")
     public String members(Model model) {
-
         return membersPaginated(1, model);
     }
 
-    @PostMapping("/")
+    @GetMapping("/members/delete/{id}")
+    public String deleteMember(@PathVariable(value = "id") Long id, Model model) {
+        System.out.println(id);
+        memberService.deleteMember(id);
+        return "redirect:/members";
+    }
+
+    @PostMapping("/members")
     public String saveNewMember(@ModelAttribute Member member, Model model) {
         memberService.saveMember(member);
         return membersPaginated(1, model);
