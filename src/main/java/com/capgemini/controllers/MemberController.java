@@ -3,6 +3,8 @@ package com.capgemini.controllers;
 import com.capgemini.entities.Member;
 import com.capgemini.services.IMemberService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,30 @@ public class MemberController {
         return membersPaginated(1, model);
     }
 
+    @GetMapping("/edit-member/{id}")
+    public String updateMemberView(@PathVariable Long id, Model model) {
+        Member member = memberService.findMemberById(id);
+        model.addAttribute("member", member);
+        return "edit-member";
+    }
+
+    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/edit-member/{id}")
+    public String updateMember(@PathVariable Long id, @ModelAttribute Member member, Model model) {
+        Member editedMember = memberService.findMemberById(id);
+        editedMember.setFirstname(member.getFirstname());
+        editedMember.setLastname(member.getLastname());
+        editedMember.setAddress(member.getAddress());
+        editedMember.setPhone(member.getPhone());
+        editedMember.setCountry(member.getCountry());
+        editedMember.setCity(member.getCity());
+        editedMember.setActive(member.isActive());
+        System.out.println(member.isActive());
+        memberService.saveMember(editedMember);
+        model.addAttribute("member", editedMember);
+        return "edit-member";
+    }
+
     @GetMapping("/members/delete/{id}")
     public String deleteMember(@PathVariable(value = "id") Long id, Model model) {
         System.out.println(id);
@@ -51,10 +77,17 @@ public class MemberController {
         return "redirect:/members";
     }
 
-    @PostMapping("/members")
+    @PostMapping("/save-member")
+    @PostAuthorize("hasAuthority('ADMIN')")
     public String saveNewMember(@ModelAttribute Member member, Model model) {
         memberService.saveMember(member);
         return membersPaginated(1, model);
+    }
+
+    @GetMapping("/add-member")
+    public String saveNewMemberView(Model model) {
+        model.addAttribute("member", new Member());
+        return "add-member";
     }
 
     @GetMapping("/dashboard")

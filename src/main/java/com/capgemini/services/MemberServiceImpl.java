@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberServiceImpl implements IMemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
@@ -28,8 +28,18 @@ public class MemberServiceImpl implements IMemberService {
     }
 
     @Override
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id).get();
+    }
+
+    @Override
     public void deleteMember(Long id) {
         memberRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateMember(Long id) {
+
     }
 
 }
