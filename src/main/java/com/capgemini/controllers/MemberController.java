@@ -8,7 +8,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -21,6 +23,10 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/")
+    public String homePage() {
+        return "index";
+    }
     @GetMapping("/page/{pageNo}")
     public String membersPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
         int pageSize = 15;
@@ -32,11 +38,18 @@ public class MemberController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("members", membersList);
-        return "index";
+        return "members";
     }
 
-    @GetMapping("/")
-    public String viewHomePage(Model model) {
+    @GetMapping("/members")
+    public String members(Model model) {
+
+        return membersPaginated(1, model);
+    }
+
+    @PostMapping("/")
+    public String saveNewMember(@ModelAttribute Member member, Model model) {
+        memberService.saveMember(member);
         return membersPaginated(1, model);
     }
 
@@ -48,4 +61,5 @@ public class MemberController {
         //model.addAttribute("name", "memberList");
         return "dashboard";
     }
+
 }

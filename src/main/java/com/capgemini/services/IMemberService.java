@@ -6,4 +6,6 @@ import org.springframework.data.domain.Page;
 public interface IMemberService {
     Page<Member> membersPage(int pageNumber, int pageSize);
 
+    void saveMember(Member member);
+
 }

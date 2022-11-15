@@ -242,3 +242,7 @@ tr.inactive {
 .dropdown-toggle {
     text-transform: capitalize;
 }
+.top-right-60{
+    top: 60px;
+    right: 60px;
+}

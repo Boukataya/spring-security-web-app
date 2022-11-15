@@ -18,10 +18,13 @@ import java.util.List;
 @SpringBootApplication
 public class SpringSecurityApplication implements CommandLineRunner {
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+
+    public SpringSecurityApplication(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(SpringSecurityApplication.class, args);
@@ -31,11 +34,7 @@ public class SpringSecurityApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-<<<<<<< HEAD
        /* Role r1 = new Role("ADMIN");
-=======
-        /*Role r1 = new Role("ADMIN");
->>>>>>> ed83fd3048af47215fe873fa932443e42db34108
         Role r2 = new Role("MANAGER");
         roleRepository.save(r1);
         roleRepository.save(r2);
