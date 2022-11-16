@@ -17,7 +17,7 @@
             <div class="col">
                 <div class="fixed-side">
                     <a type="button" class="btn btn-primary 60 add-new"
-                           th:href="@{/add-member}">Add
+                       th:href="@{/add-member}">Add
                         new member
                     </a>
                 </div>
@@ -51,14 +51,21 @@
                         <td>
 
                             <input type="hidden" id="memberId" th:value="${member.id}">
+                            <a type="button" th:href="@{'/view-member/'+${member.id}}"
+                               class="btn btn-info rounded-5 btn-sm p-1 edit">
+                                <i class="bi bi-eye"></i>
+                            </a>
                             <a type="button" th:href="@{'/edit-member/'+${member.id}}"
                                class="btn btn-primary rounded-5 btn-sm p-1 edit">
                                 <i class="bi bi-pen"></i>
                             </a>
-                            <button sec:authorize="hasAnyAuthority('ADMIN')"
-                                    class="btn btn-danger rounded-5 btn-sm  p-1 delete">
+
+                            <a sec:authorize="hasAnyAuthority('ADMIN')"
+                               th:href="@{'/members/delete/'+${member.id}}"
+                               onclick="return confirm('Are you sure ?')"
+                               class="btn btn-danger rounded-5 btn-sm  p-1 delete">
                                 <i class="bi bi-archive"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     </tbody>
@@ -68,6 +75,11 @@
         <div class="row">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? disabled : ''">
+                        <a class="page-link" th:href="@{'/members/page/1'}">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
                     <li class="page-item" th:classappend="${currentPage == 1} ? disabled : ''">
                         <a class="page-link" href="#" aria-label="Previous"
                            th:if="${currentPage <= totalPages}" th:href="@{'/members/page/' + ${currentPage - 1}}">
@@ -126,8 +138,35 @@
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
+
+                    <li class="page-item" th:classappend="${currentPage >= totalPages} ? disabled : ''">
+                        <a class="page-link" th:href="@{'/members/page/' + ${totalPages}}">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         </div>

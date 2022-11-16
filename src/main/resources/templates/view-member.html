@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Site name</title>
+    <div th:insert="fragments/head :: head"></div>
+
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+
+<section>
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col d-flex justify-content-center ">
+                <div class="card mb-3" style="width:860px">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img th:src="@{(${member.image != null}) ? '/images/'+ ${member.image} : '/images/avatar.png'}"
+                                 class="img-fluid rounded-start" alt="image" width="240px">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">First name: <span
+                                                    th:text="${member.firstname}"></span>
+                                            </li>
+                                            <li class="list-group-item">Last name: <span
+                                                    th:text="${member.lastname}"></span>
+                                            </li>
+                                            <li class="list-group-item">Email: <span th:text="${member.email}"></span>
+                                            </li>
+                                            <li class="list-group-item">Phone number: <span
+                                                    th:text="${member.phone}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-group list-group-flush">
+
+                                            <li class="list-group-item">Address: <span
+                                                    th:text="${member.address}"></span></li>
+                                            <li class="list-group-item">Country: <span
+                                                    th:text="${member.country}"></span></li>
+                                            <li class="list-group-item">City: <span th:text="${member.city}"></span>
+                                            </li>
+                                            <li class="list-group-item">Account status: <span
+                                                    th:text="${member.active ? 'Active' : 'Disable'}"></span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+
+</html>

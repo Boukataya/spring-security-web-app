@@ -14,7 +14,10 @@
     <div class="container">
         <div class="row mt-2">
             <div class="col">
-                <form th:action="@{/save-member/}" th:object="${member}" th:method="POST">
+                <form th:action="@{/save-member/}" th:object="${member}" th:method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <input class="form-control" name="profile-image" type="file" id="profileImage" accept="image/png, image/jpeg">
+                    </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" name="firstname" placeholder="First Name">
                     </div>
@@ -40,11 +43,13 @@
                         <label class="form-label d-block">Member Status</label>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="member-status" id="active" value="1" th:field="*{active}">
+                            <input class="form-check-input" type="radio" name="member-status" id="active" value="1"
+                                   th:field="*{active}">
                             <label class="form-check-label" for="active">Active</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" th:name="member-status" id="inactive" value="0" th:field="*{active}">
+                            <input class="form-check-input" type="radio" th:name="member-status" id="inactive" value="0"
+                                   th:field="*{active}">
                             <label class="form-check-label" for="inactive">Inactive</label>
                         </div>
                     </div>

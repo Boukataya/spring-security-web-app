@@ -2,6 +2,9 @@ package com.capgemini.controllers;
 
 import com.capgemini.entities.Member;
 import com.capgemini.services.IMemberService;
+import com.capgemini.util.FileUploadUtil;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,9 +12,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class MemberController {
@@ -53,7 +63,14 @@ public class MemberController {
         return "edit-member";
     }
 
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/view-member/{id}")
+    public String viewMemberDetails(@PathVariable Long id, Model model) {
+        Member member = memberService.findMemberById(id);
+        model.addAttribute("member", member);
+        return "view-member";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/edit-member/{id}")
     public String updateMember(@PathVariable Long id, @ModelAttribute Member member, Model model) {
         Member editedMember = memberService.findMemberById(id);
@@ -67,20 +84,31 @@ public class MemberController {
         System.out.println(member.isActive());
         memberService.saveMember(editedMember);
         model.addAttribute("member", editedMember);
+        model.addAttribute("message", "Member modified successfully");
         return "edit-member";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/members/delete/{id}")
-    public String deleteMember(@PathVariable(value = "id") Long id, Model model) {
-        System.out.println(id);
+    public String deleteMember(
+            @PathVariable(value = "id") Long id, Model model) {
         memberService.deleteMember(id);
         return "redirect:/members";
     }
 
     @PostMapping("/save-member")
     @PostAuthorize("hasAuthority('ADMIN')")
-    public String saveNewMember(@ModelAttribute Member member, Model model) {
+    public String saveNewMember(
+            @ModelAttribute Member member, Model model,
+            @RequestParam("profile-image") MultipartFile multipartFile)
+            throws IOException {
+        UUID uuid = UUID.randomUUID();
+        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+        String fileName = uuid + "." + extension;
+        member.setImage(fileName);
         memberService.saveMember(member);
+        String uploadDir = "images";
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         return membersPaginated(1, model);
     }
 
