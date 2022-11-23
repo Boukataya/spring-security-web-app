@@ -14,7 +14,6 @@
     <div class="container">
         <div class="row mt-2">
             <div class="col">
-                <div th:if="${message}" th:text="${message}" class="alert alert-primary" role="alert" />
                 <form th:action="@{'/edit-member/' + ${member.id}}" th:object="${member}" th:method="POST">
                     <div class="mb-3">
                         <input type="text" class="form-control" name="firstname" th:value="${member.firstname}"

@@ -15,6 +15,7 @@
     <div class="container">
         <div class="row mt-2">
             <div class="col">
+                <div th:if="${message}" th:text="${message}" class="alert alert-primary" role="alert" />
                 <div class="fixed-side">
                     <a type="button" class="btn btn-primary 60 add-new"
                        th:href="@{/add-member}">Add
@@ -55,7 +56,7 @@
                                class="btn btn-info rounded-5 btn-sm p-1 edit">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a type="button" th:href="@{'/edit-member/'+${member.id}}"
+                            <a type="button" th:href="@{'/edit-member/'+${member.id}+'/'+${currentPage}}"
                                class="btn btn-primary rounded-5 btn-sm p-1 edit">
                                 <i class="bi bi-pen"></i>
                             </a>
