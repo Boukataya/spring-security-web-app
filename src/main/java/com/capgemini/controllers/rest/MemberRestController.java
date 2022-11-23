@@ -20,7 +20,6 @@ import java.util.List;
 public class MemberRestController {
 
     private MemberRepository memberRepository;
-    //static Log log = LogFactory.getLog(MemberRestController.class.getName());
     private static final Logger logger = LogManager.getLogger(MemberRestController.class);
 
     public MemberRestController(MemberRepository memberRepository) {
@@ -29,11 +28,12 @@ public class MemberRestController {
 
     @GetMapping("/all")
     public List<MemberDto> findAllMember() {
+
+        logger.error("ERROR: Start data fetching");
+        logger.fatal("FATAL: Start data fetching");
         logger.trace("TRACE: Start data fetching");
         logger.info("INFO: Start data fetching");
         logger.debug("DEBUG: Start data fetching");
-        logger.error("ERROR: Start data fetching");
-        logger.fatal("FATAL: Start data fetching");
         List<Member> membersList = memberRepository.getLastTen();
         return MemberConverter.toMemberDtoList(membersList);
     }

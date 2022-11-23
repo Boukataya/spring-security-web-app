@@ -4,6 +4,8 @@ import com.capgemini.entities.Member;
 import com.capgemini.services.IMemberService;
 import com.capgemini.util.FileUploadUtil;
 import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,9 +30,14 @@ public class MemberController {
     }
 
     public int userCurrentPage = 0;
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     @GetMapping("/")
     public String homePage() {
+        logger.trace("TRACE: Start data fetching");
+        logger.info("INFO: Start data fetching");
+        logger.debug("DEBUG: Start data fetching");
+        logger.error("ERROR: Start data fetching");
         return "index";
     }
 
