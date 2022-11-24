@@ -18,51 +18,43 @@
                 <div th:if="${message}" th:text="${message}" class="alert alert-primary" role="alert" />
                 <div class="fixed-side">
                     <a type="button" class="btn btn-primary 60 add-new"
-                       th:href="@{/add-member}">Add
-                        new member
+                       th:href="@{/add-car}">Add
+                        new car
                     </a>
                 </div>
                 <table class="table mt-2">
                     <thead>
                     <tr>
                         <!--<th scope="col">#</th>-->
-                        <th scope="col">FirstName</th>
-                        <th scope="col">LastName</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">City</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Car maker</th>
+                        <th scope="col">Car model</th>
+                        <th scope="col">Model year</th>
+                        <th scope="col">Actions</th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:classappend="${member.active} ? active : inactive" scopr="row" th:each="member: ${members}">
+                    <tr scopr="row" th:each="car: ${cars}">
                         <!--<td th:text="${member.id}">id</td>-->
-                        <td th:text="${member.firstname}">firstname</td>
-                        <td th:text="${member.lastname}">lastname</td>
-                        <td th:text="${member.email}">email</td>
-                        <td th:text="${member.phone}">phone</td>
-                        <td th:text="${member.address}">address</td>
-                        <td th:text="${member.country}">country</td>
-                        <td th:text="${member.city}">city</td>
-                        <td th:text="${member.active}">active</td>
+                        <td th:text="${car.id}">id</td>
+                        <td th:text="${car.carMaker}">car_maker</td>
+                        <td th:text="${car.carModel}">car_model</td>
+                        <td th:text="${car.carModelYear}">car_model_year</td>
                         <td>
 
-                            <input type="hidden" id="memberId" th:value="${member.id}">
-                            <a type="button" th:href="@{'/view-member/'+${member.id}}"
+                            <input type="hidden" id="carId" th:value="${car.id}">
+                            <a type="button" th:href="@{'/view-car/'+${car.id}}"
                                class="btn btn-info rounded-5 btn-sm p-1 edit">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a type="button" th:href="@{'/edit-member/'+${member.id}+'/'+${currentPage}}"
+                            <a type="button" th:href="@{'/edit-car/'+${car.id}+'/'+${currentPage}}"
                                class="btn btn-primary rounded-5 btn-sm p-1 edit">
                                 <i class="bi bi-pen"></i>
                             </a>
 
                             <a sec:authorize="hasAnyAuthority('ADMIN')"
-                               th:href="@{'/members/delete/'+${member.id}}"
+                               th:href="@{'/cars/delete/'+${car.id}}"
                                onclick="return confirm('Are you sure ?')"
                                class="btn btn-danger rounded-5 btn-sm  p-1 delete">
                                 <i class="bi bi-archive"></i>
@@ -77,13 +69,13 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item" th:classappend="${currentPage == 1} ? disabled : ''">
-                        <a class="page-link" th:href="@{'/members/page/1'}">
+                        <a class="page-link" th:href="@{'/cars/page/1'}">
                             <span aria-hidden="true">First</span>
                         </a>
                     </li>
                     <li class="page-item" th:classappend="${currentPage == 1} ? disabled : ''">
                         <a class="page-link" href="#" aria-label="Previous"
-                           th:if="${currentPage <= totalPages}" th:href="@{'/members/page/' + ${currentPage - 1}}">
+                           th:if="${currentPage <= totalPages}" th:href="@{'/cars/page/' + ${currentPage - 1}}">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -92,33 +84,33 @@
                             <li class="page-item"
                                 th:each="i: ${#numbers.sequence(1, 5)}"
                                 th:classappend="${currentPage==i} ? active : ''">
-                                <a class="page-link" th:href="@{'/members/page/' + ${i}}">[[${i}]]</a>
+                                <a class="page-link" th:href="@{'/cars/page/' + ${i}}">[[${i}]]</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" th:href="@{'/members/page/6'}">...</a>
+                                <a class="page-link" th:href="@{'/cars/page/6'}">...</a>
                             </li>
 
                             <li class="page-item"
                                 th:each="i: ${#numbers.sequence(totalPages - 4, totalPages)}"
                                 th:classappend="${currentPage==i} ? active : ''">
-                                <a class="page-link" th:href="@{'/members/page/' + ${i}}">[[${i}]]</a>
+                                <a class="page-link" th:href="@{'/cars/page/' + ${i}}">[[${i}]]</a>
                             </li>
                         </th:block>
 
                         <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
                             <li class="page-item">
-                                <a class="page-link" th:href="@{'/members/page/' + ${currentPage - 5}}">...</a>
+                                <a class="page-link" th:href="@{'/cars/page/' + ${currentPage - 5}}">...</a>
                             </li>
 
                             <li class="page-item"
                                 th:each="i: ${#numbers.sequence(currentPage - 4 , currentPage + 4)}"
                                 th:classappend="${currentPage==i} ? active : ''">
-                                <a class="page-link" th:href="@{'/members/page/' + ${i}}">[[${i}]]</a>
+                                <a class="page-link" th:href="@{'/cars/page/' + ${i}}">[[${i}]]</a>
                             </li>
 
 
                             <li class="page-item">
-                                <a class="page-link" th:href="@{'/members/page/' + ${currentPage + 5}}">...</a>
+                                <a class="page-link" th:href="@{'/cars/page/' + ${currentPage + 5}}">...</a>
                             </li>
                         </th:block>
                     </th:block>
@@ -126,7 +118,7 @@
                     <th:block th:if="${totalPages <= 10}">
                         <li class="nav-item"
                             th:each="i : ${#numbers.sequence(1, totalPages)}">
-                            <a class="page-link" th:href="@{'/members/page/' + ${i}}"
+                            <a class="page-link" th:href="@{'/cars/page/' + ${i}}"
                                th:classappend="${currentPage}==${i}?'active':''">[[${i}]]</a>
 
                         </li>
@@ -135,13 +127,13 @@
 
                     <li class="page-item" th:classappend="${currentPage >= totalPages} ? disabled : ''">
                         <a class="page-link" href="#" aria-label="Next"
-                           th:if="${currentPage <= totalPages}" th:href="@{'/members/page/' + ${currentPage + 1}}">
+                           th:if="${currentPage <= totalPages}" th:href="@{'/cars/page/' + ${currentPage + 1}}">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
 
                     <li class="page-item" th:classappend="${currentPage >= totalPages} ? disabled : ''">
-                        <a class="page-link" th:href="@{'/members/page/' + ${totalPages}}">
+                        <a class="page-link" th:href="@{'/cars/page/' + ${totalPages}}">
                             <span aria-hidden="true">Last</span>
                         </a>
                     </li>
