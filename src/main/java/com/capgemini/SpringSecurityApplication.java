@@ -1,21 +1,12 @@
 package com.capgemini;
 
-import com.capgemini.entities.Role;
-import com.capgemini.entities.UserEntity;
 import com.capgemini.repositories.RoleRepository;
 import com.capgemini.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class SpringSecurityApplication implements CommandLineRunner {
@@ -30,7 +21,6 @@ public class SpringSecurityApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringSecurityApplication.class, args);
-
     }
 
     @Override
