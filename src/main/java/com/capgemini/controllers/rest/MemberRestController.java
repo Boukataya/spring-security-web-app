@@ -42,7 +42,7 @@ public class MemberRestController {
     public ResponseEntity<Member> findMember(@PathVariable("id") Long id) {
         Member member = memberRepository.findById(id).get();
         if (member == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(member, HttpStatus.OK);
     }

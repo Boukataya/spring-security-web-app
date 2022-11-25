@@ -37,12 +37,12 @@ public class LoginController {
     }
 
 
-    @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
-    public ModelAndView accessdenied() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("access-denied");
-        return modelAndView;
-    }
+//    @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
+//    public ModelAndView accessdenied() {
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("access-denied");
+//        return modelAndView;
+//    }
 
     private boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
