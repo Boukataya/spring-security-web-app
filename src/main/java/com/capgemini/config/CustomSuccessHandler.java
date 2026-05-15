@@ -24,6 +24,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         MysqlxDatatypes.Scalar.String redirectUrl = null;
         // TEST 1
         // TEST 2
+        // TEST 3
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
