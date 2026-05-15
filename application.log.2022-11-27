@@ -1,0 +1,4 @@
+2022-11-27 11:31:40 HikariPool [WARN] HikariPool-2 - Thread starvation or clock leap detected (housekeeper delta=12h33m2s753ms422µs800ns).
+2022-11-27 11:55:07 LocalContainerEntityManagerFactoryBean [INFO] Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-27 11:55:07 HikariDataSource [INFO] HikariPool-2 - Shutdown initiated...
+2022-11-27 11:55:07 HikariDataSource [INFO] HikariPool-2 - Shutdown completed.

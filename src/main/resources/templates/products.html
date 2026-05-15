@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Site name</title>
+    <div th:insert="fragments/head :: head"></div>
+
+</head>
+<body>
+<div th:insert="fragments/header :: header"></div>
+
+<section>
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col">
+
+                <table class="table mt-2">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:classappend="${product.active} ? active : inactive" scopr="row"
+                        th:each="product: ${products}">
+                        <td th:text="${product.id}">id</td>
+                        <td th:text="${product.title}">firstname</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+
+</html>

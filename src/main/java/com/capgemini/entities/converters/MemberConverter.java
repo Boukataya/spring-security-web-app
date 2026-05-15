@@ -19,6 +19,7 @@ public class MemberConverter {
 
     public static MemberDto toMemberDto(Member member) {
         MemberDto memberDto = new MemberDto();
+        memberDto.setId(member.getId());
         memberDto.setImage(member.getImage());
         memberDto.setFirstname(member.getFirstname());
         memberDto.setLastname(member.getLastname());

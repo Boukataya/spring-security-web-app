@@ -1,5 +1,6 @@
 package com.capgemini.config;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -20,7 +21,9 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        String redirectUrl = null;
+        MysqlxDatatypes.Scalar.String redirectUrl = null;
+        // TEST 1
+        // TEST 2
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {

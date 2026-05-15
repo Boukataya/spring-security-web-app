@@ -9,6 +9,7 @@ import javax.persistence.Id;
 @Data
 public class MemberDto {
 
+    private Long id;
     private String image;
     private String firstname;
     private String lastname;

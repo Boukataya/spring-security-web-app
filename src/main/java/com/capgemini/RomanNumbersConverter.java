@@ -1,26 +1,35 @@
 package com.capgemini;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Scanner;
 
 public class RomanNumbersConverter {
 
     public static void main(String[] args) {
-        Map<String, Long> romanInteger = new HashMap<>();
-        romanInteger.put("I", 1L);
-        romanInteger.put("IV", 4L);
-        romanInteger.put("V", 5L);
-        romanInteger.put("IX", 9L);
-        romanInteger.put("X", 10L);
-        romanInteger.put("XL", 40L);
-        romanInteger.put("L", 50L);
-        romanInteger.put("XC", 90L);
-        romanInteger.put("C", 100L);
-        romanInteger.put("CD", 400L);
-        romanInteger.put("D", 500L);
-        romanInteger.put("CM", 900L);
-        romanInteger.put("M", 1000L);
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter a Roman numeral: ");
+        String romanNumeral = input.nextLine();
 
-        System.out.println(romanInteger.get("M"));
+        int result = 0;
+        for (int i = 0; i < romanNumeral.length(); i++) {
+            char ch = romanNumeral.charAt(i);
+            if (ch == 'M') {
+                result += 1000;
+            } else if (ch == 'D') {
+                result += 500;
+            } else if (ch == 'C') {
+                result += 100;
+            } else if (ch == 'L') {
+                result += 50;
+            } else if (ch == 'X') {
+                result += 10;
+            } else if (ch == 'V') {
+                result += 5;
+            } else if (ch == 'I') {
+                result += 1;
+            }
+        }
+
+        System.out.println("The integer value is: " + result);
     }
+
 }
