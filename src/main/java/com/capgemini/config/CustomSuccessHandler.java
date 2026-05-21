@@ -21,7 +21,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        MysqlxDatatypes.Scalar.String redirectUrl = null;
+        String redirectUrl = null;
         // TEST 1
         // TEST 2
         // TEST 3
@@ -46,6 +46,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
     public void myFeature(){
         System.out.printf("this is my feature logic...");
+    }
+
+    public void myFeatureXXX(){
+        System.out.printf("this is my feature XXX logic...");
     }
 }
 
