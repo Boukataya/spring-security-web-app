@@ -43,6 +43,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         }
         new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
+
+    public void myFeature(){
+        System.out.printf("this is my feature logic...");
+    }
 }
 
 
