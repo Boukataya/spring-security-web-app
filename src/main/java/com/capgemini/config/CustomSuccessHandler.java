@@ -51,6 +51,10 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     public void myFeatureXXX(){
         System.out.printf("this is my feature XXX logic...");
     }
+
+    public void myFeatureOOO(){
+        System.out.printf("this is my feature OOO logic...");
+    }
 }
 
 
